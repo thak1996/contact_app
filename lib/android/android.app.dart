@@ -1,6 +1,6 @@
-import 'package:contact_app/android/pages/home.page.dart';
+import 'package:contact_app/android/view/home.view.dart';
 import 'package:flutter/material.dart';
-import 'constants/styles.dart';
+import 'core/constants/styles.dart';
 
 class AndroidApp extends StatelessWidget {
   const AndroidApp({super.key});
@@ -11,7 +11,7 @@ class AndroidApp extends StatelessWidget {
       title: 'Contact App',
       debugShowCheckedModeBanner: false,
       theme: androidTheme(),
-      home: HomePage(),
+      home: HomeView(),
     );
   }
 }
