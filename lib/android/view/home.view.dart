@@ -36,8 +36,7 @@ class HomeView extends StatelessWidget {
                     },
                     child: Text('Carregar Contatos'),
                   ),
-                  SizedBox(
-                      height: 20), // Adiciona um espaço entre o botão e o texto
+                  SizedBox(height: 20),
                   BlocBuilder<HomeCubit, HomeState>(
                     builder: (context, state) {
                       if (state is HomeLoading) {
