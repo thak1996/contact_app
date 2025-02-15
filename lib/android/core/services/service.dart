@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-
 import '../interfaces/service.interface.dart';
 
 class BaseService implements IService {
