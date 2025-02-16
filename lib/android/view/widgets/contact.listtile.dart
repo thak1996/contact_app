@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../models/contact.model.dart';
-import '../contact.detail.view.dart';
 
 class ContactListTile extends StatelessWidget {
   const ContactListTile({
@@ -16,25 +16,10 @@ class ContactListTile extends StatelessWidget {
       leading: CircleAvatar(child: Icon(Icons.person)),
       title: Text(
         contact.name,
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 14,
-        ),
+        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
       ),
-      subtitle: Text(
-        contact.email,
-        style: TextStyle(fontSize: 12),
-      ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ContactDetailView(
-              contact: contact,
-            ),
-          ),
-        );
-      },
+      subtitle: Text(contact.email, style: TextStyle(fontSize: 12)),
+      onTap: () => context.push('/contact_detail', extra: contact),
     );
   }
 }

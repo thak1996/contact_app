@@ -4,19 +4,19 @@ import '../core/services/contact.service.dart';
 import '../models/contact.model.dart';
 
 class ContactController extends Cubit<ContactState> {
-  ContactController() : super(ContactInitial()) {
-    fetchContacts();
-  }
+  ContactController() : super(ContactInitial());
 
   final ContactService _service = ContactService();
 
   AsyncResult<List<Contact>> fetchContacts() async {
     emit(ContactLoading());
     final result = await _service.getContacts();
-    result.fold(
-      (contacts) => emit(ContactLoaded(contacts)),
-      (error) => emit(ContactError(error.toString())),
-    );
+    if (!isClosed) {
+      result.fold(
+        (contacts) => emit(ContactLoaded(contacts)),
+        (error) => emit(ContactError(error.toString())),
+      );
+    }
     return result;
   }
 }

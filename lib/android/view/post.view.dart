@@ -10,18 +10,13 @@ class PostView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PostController(),
+      create: (context) => PostController()..fetchPosts(),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text('Post Page'),
           centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.search),
-            color: Theme.of(context).primaryColor,
-            onPressed: () {},
-          ),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,

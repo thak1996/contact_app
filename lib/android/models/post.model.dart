@@ -39,7 +39,7 @@ class Post {
   factory Post.fromMap(Map<String, dynamic> map) {
     return Post(
       id: map['id'] as int,
-      userId: map['userId'] as int,
+      userId: map['user_id'] != null ? map['user_id'] as int : 0,
       title: map['title'] as String,
       body: map['body'] as String,
     );
