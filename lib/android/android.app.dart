@@ -1,6 +1,5 @@
 import 'package:contact_app/android/app.router.dart';
 import 'package:contact_app/android/core/services/post.serivce.dart';
-import 'package:contact_app/android/view/home.view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/constants/styles.dart';

@@ -1,23 +1,22 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:result_dart/result_dart.dart';
 import '../core/services/post.serivce.dart';
 import '../models/post.model.dart';
 
 class PostController extends Cubit<PostState> {
-  PostController() : super(PostInitial()) {
-    fetchPosts();
-  }
+  PostController() : super(PostInitial());
 
   final PostService _service = PostService();
 
-  AsyncResult<List<Post>> fetchPosts() async {
+  Future<void> fetchPosts() async {
     emit(PostLoading());
+    await Future.delayed(Duration(seconds: 2));
     final result = await _service.getPosts();
-    result.fold(
-      (posts) => emit(PostLoaded(posts)),
-      (error) => emit(PostError(error.toString())),
-    );
-    return result;
+    if (!isClosed) {
+      result.fold(
+        (posts) => emit(PostLoaded(posts)),
+        (error) => emit(PostError(error.toString())),
+      );
+    }
   }
 }
 

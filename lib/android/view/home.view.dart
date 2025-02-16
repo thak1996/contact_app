@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../controller/home.controller.dart';
+import 'widgets/home.listtile.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -14,28 +15,24 @@ class HomeView extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Text('Home Page'),
+          title: const Text('Home Page'),
           centerTitle: true,
         ),
         body: Center(
           child: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: ListView(
+              padding: const EdgeInsets.all(16.0),
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.contact_page),
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () => context.push('/contact'),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.post_add),
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () => context.push('/post'),
-                    ),
-                  ],
+                HomeListTile(
+                  leading: const Icon(Icons.contact_page_outlined),
+                  title: const Text('Contatos'),
+                  onTap: () => context.push('/contact'),
+                ),
+                const SizedBox(height: 10),
+                HomeListTile(
+                  leading: const Icon(Icons.post_add_outlined),
+                  title: const Text('Posts'),
+                  onTap: () => context.push('/post'),
                 ),
               ],
             ),

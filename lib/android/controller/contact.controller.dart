@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:result_dart/result_dart.dart';
 import '../core/services/contact.service.dart';
 import '../models/contact.model.dart';
 
@@ -8,8 +7,9 @@ class ContactController extends Cubit<ContactState> {
 
   final ContactService _service = ContactService();
 
-  AsyncResult<List<Contact>> fetchContacts() async {
+  Future<void> fetchContacts() async {
     emit(ContactLoading());
+    await Future.delayed(Duration(seconds: 2));
     final result = await _service.getContacts();
     if (!isClosed) {
       result.fold(
@@ -17,7 +17,6 @@ class ContactController extends Cubit<ContactState> {
         (error) => emit(ContactError(error.toString())),
       );
     }
-    return result;
   }
 }
 
