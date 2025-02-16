@@ -20,7 +20,7 @@ class ContactView extends StatelessWidget {
               builder: (context, state) {
                 switch (state.runtimeType) {
                   case const (ContactLoading):
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   case const (ContactLoaded):
                     final homeLoadedState = state as ContactLoaded;
                     return Expanded(
@@ -45,13 +45,11 @@ class ContactView extends StatelessWidget {
                     );
                   case const (ContactError):
                     final homeErrorState = state as ContactError;
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    return Center(
                       child: Text('Erro: ${homeErrorState.message}'),
                     );
                   default:
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    return Center(
                       child: Text('Clique no botão para carregar os contatos'),
                     );
                 }
