@@ -8,15 +8,15 @@ class HomeListTile extends StatelessWidget {
     required this.onTap,
   });
 
-  final Widget? leading;
-  final Widget? title;
+  final IconData? leading;
+  final String? title;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: leading ?? Icon(Icons.person_outline),
-      title: title ?? Text('Name ListTile'),
+      leading: Icon(leading ?? Icons.person_outline),
+      title: Text(title ?? 'Name ListTile'),
       onTap: onTap,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../controller/post.controller.dart';
+import 'widgets/app_bar.widget.dart';
 import 'widgets/post.listtile.dart';
 
 class PostView extends StatelessWidget {
@@ -12,12 +12,7 @@ class PostView extends StatelessWidget {
     return BlocProvider(
       create: (context) => PostController()..fetchPosts(),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text('Post Page'),
-          centerTitle: true,
-        ),
+        appBar: AppBarWidget(title: 'Posts'),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -25,7 +20,7 @@ class PostView extends StatelessWidget {
               builder: (context, state) {
                 switch (state.runtimeType) {
                   case const (PostLoading):
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   case const (PostLoaded):
                     final homeLoadedState = state as PostLoaded;
                     return Expanded(
@@ -50,15 +45,11 @@ class PostView extends StatelessWidget {
                     );
                   case const (PostError):
                     final homeErrorState = state as PostError;
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    return Center(
                       child: Text('Erro: ${homeErrorState.message}'),
                     );
                   default:
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Erro desconhecido'),
-                    );
+                    return Center(child: Text('Erro desconhecido'));
                 }
               },
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../controller/home.controller.dart';
+import 'widgets/app_bar.widget.dart';
 import 'widgets/home.listtile.dart';
 
 class HomeView extends StatelessWidget {
@@ -12,26 +13,21 @@ class HomeView extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeController(),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: const Text('Home Page'),
-          centerTitle: true,
-        ),
+        appBar: AppBarWidget(title: 'Home Page'),
         body: Center(
           child: SafeArea(
             child: ListView(
               padding: const EdgeInsets.all(16.0),
               children: [
                 HomeListTile(
-                  leading: const Icon(Icons.contact_page_outlined),
-                  title: const Text('Contatos'),
+                  leading: Icons.contact_page_outlined,
+                  title: 'Contatos',
                   onTap: () => context.push('/contact'),
                 ),
                 const SizedBox(height: 10),
                 HomeListTile(
-                  leading: const Icon(Icons.post_add_outlined),
-                  title: const Text('Posts'),
+                  leading: Icons.post_add_outlined,
+                  title: 'Posts',
                   onTap: () => context.push('/post'),
                 ),
               ],

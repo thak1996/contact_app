@@ -1,7 +1,7 @@
 import 'package:contact_app/android/controller/contact.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'widgets/app_bar.widget.dart';
 import 'widgets/contact.listtile.dart';
 
 class ContactView extends StatelessWidget {
@@ -12,16 +12,7 @@ class ContactView extends StatelessWidget {
     return BlocProvider(
       create: (context) => ContactController()..fetchContacts(),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text('Contact Page'),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => context.pop(),
-          ),
-        ),
+        appBar: AppBarWidget(title: 'Contact Page'),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
