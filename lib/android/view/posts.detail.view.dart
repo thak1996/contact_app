@@ -19,11 +19,11 @@ class PostDetailView extends StatelessWidget {
             Text.rich(
               TextSpan(
                 text: 'Título: ',
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 children: [
                   TextSpan(
                     text: post.title,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.normal),
                   ),
                 ],
               ),
@@ -32,11 +32,11 @@ class PostDetailView extends StatelessWidget {
             Text.rich(
               TextSpan(
                 text: 'Corpo: ',
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 children: [
                   TextSpan(
                     text: post.body,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.normal),
                   ),
                 ],
               ),
