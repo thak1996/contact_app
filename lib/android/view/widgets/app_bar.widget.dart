@@ -15,6 +15,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       title: Text(title),
       centerTitle: true,
+      forceMaterialTransparency: true,
     );
   }
 }
