@@ -41,16 +41,6 @@ class PostDetailView extends StatelessWidget {
                 ],
               ),
             ),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                // Ação de edição
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-              ),
-              child: Text('Editar'),
-            ),
           ],
         ),
       ),
