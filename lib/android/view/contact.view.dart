@@ -32,6 +32,7 @@ class ContactView extends StatelessWidget {
                                 .fetchContacts();
                           },
                           child: ListView.builder(
+                            padding: const EdgeInsets.all(8),
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: homeLoadedState.contacts.length,
