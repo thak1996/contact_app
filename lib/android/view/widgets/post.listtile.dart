@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 import '../../models/post.model.dart';
 
 class PostListTile extends StatelessWidget {
@@ -12,11 +12,25 @@ class PostListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(post.title),
-      subtitle: Text(post.body),
-      leading: CircleAvatar(
-        child: Text(post.id.toString()),
+    return Card(
+      child: InkWell(
+        onTap: () => context.push('/post_detail', extra: post),
+        borderRadius: BorderRadius.circular(10),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                "Title: ${post.title}",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text(post.body),
+            ],
+          ),
+        ),
       ),
     );
   }
