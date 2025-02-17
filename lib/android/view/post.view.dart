@@ -32,6 +32,10 @@ class PostView extends StatelessWidget {
                                 .fetchPosts();
                           },
                           child: ListView.builder(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 10,
+                            ),
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: homeLoadedState.posts.length,
