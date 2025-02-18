@@ -29,10 +29,25 @@ class ContactService extends BaseService implements IContactService {
       if (response.statusCode == 204) {
         return Success('Contato deletado com sucess');
       }
-      return Failure(GeneralException('Erro ao deletar contato'));
+      return Failure(GeneralException('Usuário não encontrado.'));
     } on DioException catch (e) {
       return Failure(
         GeneralException(e.message ?? 'Erro ao deletar contato'),
+      );
+    }
+  }
+
+  @override
+  AsyncResult<String> updateContact(Contact contact) async {
+    try {
+      final response = await put('/users/${contact.id}', contact.toMap());
+      if (response.statusCode == 200) {
+        return Success('Contato atualizado com sucesso');
+      }
+      return Failure(GeneralException('Erro ao atualizar contato'));
+    } on DioException catch (e) {
+      return Failure(
+        GeneralException(e.message ?? 'Erro ao atualizar contato'),
       );
     }
   }
