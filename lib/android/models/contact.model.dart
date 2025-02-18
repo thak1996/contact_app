@@ -1,9 +1,9 @@
 class Contact {
   final int id;
-  final String name;
-  final String email;
-  final String gender;
-  final String status;
+  late final String name;
+  late final String email;
+  late final String gender;
+  late final String status;
 
   Contact({
     required this.id,

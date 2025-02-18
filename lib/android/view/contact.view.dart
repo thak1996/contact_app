@@ -1,6 +1,7 @@
 import 'package:contact_app/android/controller/contact.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../models/contact.model.dart';
 import 'widgets/app_bar.widget.dart';
 import 'widgets/contact.listtile.dart';
 
@@ -38,7 +39,16 @@ class ContactView extends StatelessWidget {
                             itemCount: homeLoadedState.contacts.length,
                             itemBuilder: (context, index) {
                               final contact = homeLoadedState.contacts[index];
-                              return ContactListTile(contact: contact);
+                              return ContactListTile(
+                                contact: contact,
+                                onDelete: () {
+                                  // Lógica para apagar o contato
+                                },
+                                onEdit: () {
+                                  // Lógica para editar o contato
+                                  _showEditDialog(context, contact);
+                                },
+                              );
                             },
                           ),
                         ),
@@ -59,6 +69,70 @@ class ContactView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showEditDialog(BuildContext context, Contact contact) {
+    final TextEditingController nameController =
+        TextEditingController(text: contact.name);
+    final TextEditingController emailController =
+        TextEditingController(text: contact.email);
+    String gender = contact.gender == 'male' ? 'Masculino' : 'Feminino';
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Editar Contato'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(labelText: 'Nome'),
+              ),
+              TextField(
+                controller: emailController,
+                decoration: InputDecoration(labelText: 'Email'),
+              ),
+              DropdownButtonFormField<String>(
+                value: gender,
+                decoration: InputDecoration(labelText: 'Sexo'),
+                items: ['Masculino', 'Feminino']
+                    .map((label) => DropdownMenuItem(
+                          value: label,
+                          child: Text(label),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  gender = value!;
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Lógica para salvar as alterações
+                contact.copyWith(
+                  name: nameController.text,
+                  email: emailController.text,
+                  gender: gender == 'Masculino' ? 'male' : 'female',
+                );
+                // context.read<ContactController>().updateContact(updatedContact);
+                Navigator.of(context).pop();
+              },
+              child: Text('Salvar'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
