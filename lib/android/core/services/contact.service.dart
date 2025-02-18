@@ -21,4 +21,19 @@ class ContactService extends BaseService implements IContactService {
       );
     }
   }
+
+  @override
+  AsyncResult<String> deleteContact(Contact contact) async {
+    try {
+      final response = await delete('/users/${contact.id}');
+      if (response.statusCode == 204) {
+        return Success('Contato deletado com sucess');
+      }
+      return Failure(GeneralException('Erro ao deletar contato'));
+    } on DioException catch (e) {
+      return Failure(
+        GeneralException(e.message ?? 'Erro ao deletar contato'),
+      );
+    }
+  }
 }

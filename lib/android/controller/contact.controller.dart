@@ -18,6 +18,16 @@ class ContactController extends Cubit<ContactState> {
       );
     }
   }
+
+  Future<void> deleteContact(Contact contact) async {
+    final result = await _service.deleteContact(contact);
+    if (!isClosed) {
+      result.fold(
+        (message) => emit(ContactDeleted(message)),
+        (error) => emit(ContactError(error.toString())),
+      );
+    }
+  }
 }
 
 abstract class ContactState {}
@@ -30,6 +40,12 @@ class ContactLoaded extends ContactState {
   ContactLoaded(this.contacts);
 
   final List<Contact> contacts;
+}
+
+class ContactDeleted extends ContactState {
+  ContactDeleted(this.message);
+
+  final String message;
 }
 
 class ContactError extends ContactState {
