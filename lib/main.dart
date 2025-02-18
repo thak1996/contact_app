@@ -1,4 +1,5 @@
 import 'package:contact_app/android/android.app.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 
 // void main() {
@@ -7,4 +8,7 @@ import 'package:flutter/material.dart';
 //   } else {}
 // }
 
-void main() => runApp(const AndroidApp());
+void main() async {
+  await dotenv.load(fileName: ".env");
+  runApp(const AndroidApp());
+}
