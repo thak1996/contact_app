@@ -53,77 +53,85 @@ class _NewContactState extends State<NewContact> {
                 }
               },
               builder: (context, state) {
-                if (state is NewContactLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (state is NewContactLoaded) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    context.go('/contact');
-                  });
-                  return const SizedBox();
+                switch (state.runtimeType) {
+                  case const (NewContactLoading):
+                    return const Center(child: CircularProgressIndicator());
+                  case const (NewContactLoaded):
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      context.go('/contact');
+                    });
+                    return const SizedBox();
+                  default:
+                    return Column(
+                      children: [
+                        TextFormField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(labelText: 'Nome'),
+                          validator: AppValidators.validateName,
+                        ),
+                        TextFormField(
+                          controller: _emailController,
+                          decoration: const InputDecoration(labelText: 'Email'),
+                          validator: AppValidators.validateEmail,
+                        ),
+                        DropdownButtonFormField<String>(
+                          value: _selectedGender,
+                          decoration: const InputDecoration(
+                            labelText: 'Gênero',
+                          ),
+                          items: const [
+                            DropdownMenuItem(
+                              value: 'male',
+                              child: Text('Masculino'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'female',
+                              child: Text('Feminino'),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            setState(() => _selectedGender = value);
+                          },
+                        ),
+                        DropdownButtonFormField<String>(
+                          value: _selectedStatus,
+                          decoration: const InputDecoration(
+                            labelText: 'Status',
+                          ),
+                          onChanged: (value) {
+                            setState(() => _selectedStatus = value);
+                          },
+                          items: const [
+                            DropdownMenuItem(
+                              value: 'active',
+                              child: Text('Ativo'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'inactive',
+                              child: Text('Inativo'),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              final newContact = Contact(
+                                name: _nameController.text,
+                                email: _emailController.text,
+                                gender: _selectedGender!,
+                                status: _selectedStatus!,
+                              );
+                              context //
+                                  .read<NewContactController>()
+                                  .createContact(newContact);
+                            }
+                          },
+                          child: const Text('Criar Contato'),
+                        ),
+                      ],
+                    );
                 }
-                return Column(
-                  children: [
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: const InputDecoration(labelText: 'Nome'),
-                      validator: AppValidators.validateName,
-                    ),
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: const InputDecoration(labelText: 'Email'),
-                      validator: AppValidators.validateEmail,
-                    ),
-                    DropdownButtonFormField<String>(
-                      value: _selectedGender,
-                      decoration: const InputDecoration(labelText: 'Gênero'),
-                      items: const [
-                        DropdownMenuItem(
-                          value: 'male',
-                          child: Text('Masculino'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'female',
-                          child: Text('Feminino'),
-                        ),
-                      ],
-                      onChanged: (value) =>
-                          setState(() => _selectedGender = value),
-                    ),
-                    DropdownButtonFormField<String>(
-                      value: _selectedStatus,
-                      decoration: const InputDecoration(labelText: 'Status'),
-                      onChanged: (value) =>
-                          setState(() => _selectedStatus = value),
-                      items: const [
-                        DropdownMenuItem(
-                          value: 'active',
-                          child: Text('Ativo'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'inactive',
-                          child: Text('Inativo'),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          final newContact = Contact(
-                            name: _nameController.text,
-                            email: _emailController.text,
-                            gender: _selectedGender!,
-                            status: _selectedStatus!,
-                          );
-                          context //
-                              .read<NewContactController>()
-                              .createContact(newContact);
-                        }
-                      },
-                      child: const Text('Criar Contato'),
-                    ),
-                  ],
-                );
               },
             ),
           ),
