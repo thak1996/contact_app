@@ -3,15 +3,15 @@ import 'package:dio/dio.dart';
 import 'package:result_dart/result_dart.dart';
 import '../../models/contact.model.dart';
 import '../interfaces/contact.interface.dart';
-import 'service.dart';
+import 'dio.service.dart';
 
 class ContactService extends BaseService implements IContactService {
-  ContactService() : super('https://gorest.co.in/public/v2');
+  ContactService();
 
   @override
   AsyncResult<List<Contact>> getContacts() async {
     try {
-      final response = await get('/users');
+      final response = await get(route: '/users');
       final List<dynamic> data = response.data;
       final contacts = data.map((json) => Contact.fromMap(json)).toList();
       return Success(contacts);
@@ -25,7 +25,7 @@ class ContactService extends BaseService implements IContactService {
   @override
   AsyncResult<String> deleteContact(Contact contact) async {
     try {
-      final response = await delete('/users/${contact.id}');
+      final response = await delete(route: '/users/${contact.id}');
       if (response.statusCode == 204) {
         return Success('Contato deletado com sucess');
       }
@@ -40,7 +40,10 @@ class ContactService extends BaseService implements IContactService {
   @override
   AsyncResult<String> updateContact(Contact contact) async {
     try {
-      final response = await put('/users/${contact.id}', contact.toMap());
+      final response = await put(
+        route: '/users/${contact.id}',
+        body: contact.toMap(),
+      );
       if (response.statusCode == 200) {
         return Success('Contato atualizado com sucesso');
       }
@@ -55,7 +58,7 @@ class ContactService extends BaseService implements IContactService {
   @override
   AsyncResult<String> createContact(Contact contact) async {
     try {
-      final response = await post('/users', contact.toMap());
+      final response = await post(route: '/users', body: contact.toMap());
       if (response.statusCode == 201) {
         return Success('Contato criado com sucesso');
       }
