@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../core/services/contact.service.dart';
 import '../models/contact.model.dart';
 
@@ -16,20 +13,14 @@ class NewContactController extends Cubit<NewContactState> {
       final result = await contactService.createContact(contact);
       result.fold(
         (success) {
-          if (!isClosed) {
-            emit(NewContactLoaded());
-          }
+          if (!isClosed) emit(NewContactLoaded());
         },
         (failure) {
-          if (!isClosed) {
-            emit(NewContactError('Erro: $failure'));
-          }
+          if (!isClosed) emit(NewContactError('Erro: $failure'));
         },
       );
     } catch (e) {
-      if (!isClosed) {
-        emit(NewContactError('Erro: $e'));
-      }
+      if (!isClosed) emit(NewContactError('Erro: $e'));
     }
   }
 }

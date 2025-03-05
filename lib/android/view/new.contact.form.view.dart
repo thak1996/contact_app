@@ -3,7 +3,6 @@ import 'package:contact_app/android/view/widgets/app_bar.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import '../controller/new.contact.controller.dart';
 import '../core/utils/app.validators.dart';
 import '../models/contact.model.dart';
@@ -35,9 +34,7 @@ class _NewContactState extends State<NewContact> {
             key: _formKey,
             child: BlocConsumer<NewContactController, NewContactState>(
               listener: (context, state) {
-                if (state is NewContactLoaded) {
-                  context.pop(true);
-                } else if (state is NewContactError) {
+                if (state is NewContactError) {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -47,7 +44,7 @@ class _NewContactState extends State<NewContact> {
                         actions: <Widget>[
                           TextButton(
                             child: const Text('OK'),
-                            onPressed: () => context.pop('/contact'),
+                            onPressed: () => context.pop(),
                           ),
                         ],
                       );
