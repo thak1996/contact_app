@@ -14,7 +14,7 @@ class NewContactController extends Cubit<NewContactState> {
       if (!isClosed) {
         result.fold(
           (success) => emit(NewContactLoaded()),
-          (failure) => emit(NewContactError('Erro: $failure')),
+          (failure) => emit(NewContactError('$failure')),
         );
       }
     } catch (e) {

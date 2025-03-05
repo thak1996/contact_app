@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:result_dart/result_dart.dart';
 import '../../models/contact.model.dart';
 import '../interfaces/contact.interface.dart';
+import '../utils/error.translator.dart';
 import 'dio.service.dart';
 
 class ContactService extends BaseService implements IContactService {
@@ -68,8 +69,15 @@ class ContactService extends BaseService implements IContactService {
       if (response.statusCode == 201) {
         return Success('Contato criado com sucesso');
       }
+      log('Passou aqui na falha: ${response.data.toString()}');
+      if (response.data is List) {
+        final listErrors = response.data as List;
+        final translatedErrors = ErrorTranslator.translateList(listErrors);
+        return Failure(GeneralException(translatedErrors));
+      }
       return Failure(GeneralException('Erro ao criar contato'));
     } on DioException catch (e) {
+      log(e.message ?? 'Erro ao criar contato');
       return Failure(
         GeneralException(e.message ?? 'Erro ao criar contato'),
       );

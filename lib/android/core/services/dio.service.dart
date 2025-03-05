@@ -77,6 +77,10 @@ class BaseService implements IApiService {
           statusCode: e.hashCode,
         );
       }
+      return ResponseModel(
+        data: e.response?.data ?? ErrorStatus.generalException.label,
+        statusCode: e.response?.statusCode ?? 500,
+      );
     } catch (e) {
       return ResponseModel(
         data: ErrorStatus.generalException.label,
@@ -86,10 +90,11 @@ class BaseService implements IApiService {
   }
 
   @override
-  Future get(
-      {required String route,
-      Map<String, dynamic>? parameters,
-      Map<String, String>? headers}) async {
+  Future get({
+    required String route,
+    Map<String, dynamic>? parameters,
+    Map<String, String>? headers,
+  }) async {
     try {
       var response = await dio.get(
         route,
