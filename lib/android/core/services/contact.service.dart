@@ -51,4 +51,19 @@ class ContactService extends BaseService implements IContactService {
       );
     }
   }
+
+  @override
+  AsyncResult<String> createContact(Contact contact) async {
+    try {
+      final response = await post('/users', contact.toMap());
+      if (response.statusCode == 201) {
+        return Success('Contato criado com sucesso');
+      }
+      return Failure(GeneralException('Erro ao criar contato'));
+    } on DioException catch (e) {
+      return Failure(
+        GeneralException(e.message ?? 'Erro ao criar contato'),
+      );
+    }
+  }
 }

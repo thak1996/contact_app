@@ -1,12 +1,12 @@
 class Contact {
-  final int id;
+  final int? id;
   late final String name;
   late final String email;
   late final String gender;
   late final String status;
 
   Contact({
-    required this.id,
+    this.id,
     required this.name,
     required this.email,
     required this.gender,
