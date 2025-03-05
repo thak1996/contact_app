@@ -1,9 +1,33 @@
-import 'package:dio/dio.dart';
+abstract class IApiService {
+  Future<dynamic> post({
+    required String route,
+    Map<String, dynamic>? body,
+    Map<String, String>? headers,
+    Map<String, dynamic>? parameters,
+  });
 
-abstract class IService {
-  Future<Response> get(String endpoint);
-  Future<Response> post(String endpoint, Map<String, dynamic> data);
-  Future<Response> put(String endpoint, Map<String, dynamic> data);
-  Future<Response> delete(String endpoint);
-  Future<Response> patch(String endpoint, Map<String, dynamic> data);
+  Future<dynamic> get({
+    required String route,
+    Map<String, dynamic>? parameters,
+    Map<String, String>? headers,
+  });
+
+  Future<dynamic> patch({
+    required String route,
+    required Map<String, dynamic> body,
+    Map<String, String>? headers,
+  });
+
+  Future<dynamic> delete({
+    required String route,
+    Map<String, String>? headers,
+    Map<String, dynamic>? parameters,
+  });
+
+  Future<dynamic> put({
+    required String route,
+    required Map<String, dynamic> body,
+    Map<String, String>? headers,
+    Map<String, dynamic>? parameters,
+  });
 }
