@@ -15,18 +15,21 @@ class NewContactController extends Cubit<NewContactState> {
     try {
       final result = await contactService.createContact(contact);
       result.fold(
-        (failure) {
-          log('Falha ao criar contato: $failure');
-          emit(NewContactError(failure));
-        },
         (success) {
-          log('Contato criado com sucesso');
-          emit(NewContactLoaded());
+          if (!isClosed) {
+            emit(NewContactLoaded());
+          }
+        },
+        (failure) {
+          if (!isClosed) {
+            emit(NewContactError('Erro: $failure'));
+          }
         },
       );
     } catch (e) {
-      log('Erro ao criar contato: $e');
-      emit(NewContactError('Erro: $e'));
+      if (!isClosed) {
+        emit(NewContactError('Erro: $e'));
+      }
     }
   }
 }

@@ -33,67 +33,94 @@ class _NewContactState extends State<NewContact> {
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(labelText: 'Nome'),
-                  validator: AppValidators.validateName,
-                ),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  validator: AppValidators.validateEmail,
-                ),
-                DropdownButtonFormField<String>(
-                  value: _selectedGender,
-                  decoration: const InputDecoration(labelText: 'Gênero'),
-                  items: const [
-                    DropdownMenuItem(
-                      value: 'male',
-                      child: Text('Masculino'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'female',
-                      child: Text('Feminino'),
-                    ),
-                  ],
-                  onChanged: (value) => setState(() => _selectedGender = value),
-                ),
-                DropdownButtonFormField<String>(
-                  value: _selectedStatus,
-                  decoration: const InputDecoration(labelText: 'Status'),
-                  onChanged: (value) => setState(() => _selectedStatus = value),
-                  items: const [
-                    DropdownMenuItem(
-                      value: 'active',
-                      child: Text('Ativo'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'inactive',
-                      child: Text('Inativo'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      final newContact = Contact(
-                        name: _nameController.text,
-                        email: _emailController.text,
-                        gender: _selectedGender!,
-                        status: _selectedStatus!,
+            child: BlocConsumer<NewContactController, NewContactState>(
+              listener: (context, state) {
+                if (state is NewContactLoaded) {
+                  context.pop(true);
+                } else if (state is NewContactError) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Erro'),
+                        content: Text(state.message),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('OK'),
+                            onPressed: () => context.pop('/contact'),
+                          ),
+                        ],
                       );
-                      context //
-                          .read<NewContactController>()
-                          .createContact(newContact);
-                      context.pop();
-                    }
-                  },
-                  child: const Text('Criar Contato'),
-                ),
-              ],
+                    },
+                  );
+                }
+              },
+              builder: (context, state) {
+                if (state is NewContactLoading) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return Column(children: [
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(labelText: 'Nome'),
+                    validator: AppValidators.validateName,
+                  ),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    validator: AppValidators.validateEmail,
+                  ),
+                  DropdownButtonFormField<String>(
+                    value: _selectedGender,
+                    decoration: const InputDecoration(labelText: 'Gênero'),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'male',
+                        child: Text('Masculino'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'female',
+                        child: Text('Feminino'),
+                      ),
+                    ],
+                    onChanged: (value) =>
+                        setState(() => _selectedGender = value),
+                  ),
+                  DropdownButtonFormField<String>(
+                    value: _selectedStatus,
+                    decoration: const InputDecoration(labelText: 'Status'),
+                    onChanged: (value) =>
+                        setState(() => _selectedStatus = value),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'active',
+                        child: Text('Ativo'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'inactive',
+                        child: Text('Inativo'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        final newContact = Contact(
+                          name: _nameController.text,
+                          email: _emailController.text,
+                          gender: _selectedGender!,
+                          status: _selectedStatus!,
+                        );
+                        context //
+                            .read<NewContactController>()
+                            .createContact(newContact);
+                      }
+                    },
+                    child: const Text('Criar Contato'),
+                  ),
+                ]);
+              },
             ),
           ),
         ),
