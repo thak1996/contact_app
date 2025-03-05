@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:contact_app/android/core/utils/exceptions.dart';
 import 'package:dio/dio.dart';
 import 'package:result_dart/result_dart.dart';
@@ -12,9 +14,13 @@ class ContactService extends BaseService implements IContactService {
   AsyncResult<List<Contact>> getContacts() async {
     try {
       final response = await get(route: '/users');
-      final List<dynamic> data = response.data;
-      final contacts = data.map((json) => Contact.fromMap(json)).toList();
-      return Success(contacts);
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data;
+        final contacts = data.map((json) => Contact.fromMap(json)).toList();
+        return Success(contacts);
+      } else {
+        return Failure(GeneralException('Erro ao carregar contatos'));
+      }
     } on DioException catch (e) {
       return Failure(
         GeneralException(e.message ?? 'Erro ao carregar contatos'),

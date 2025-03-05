@@ -11,14 +11,12 @@ class NewContactController extends Cubit<NewContactState> {
     emit(NewContactLoading());
     try {
       final result = await contactService.createContact(contact);
-      result.fold(
-        (success) {
-          if (!isClosed) emit(NewContactLoaded());
-        },
-        (failure) {
-          if (!isClosed) emit(NewContactError('Erro: $failure'));
-        },
-      );
+      if (!isClosed) {
+        result.fold(
+          (success) => emit(NewContactLoaded()),
+          (failure) => emit(NewContactError('Erro: $failure')),
+        );
+      }
     } catch (e) {
       if (!isClosed) emit(NewContactError('Erro: $e'));
     }
