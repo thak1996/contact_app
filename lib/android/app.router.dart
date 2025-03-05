@@ -1,3 +1,4 @@
+import 'package:contact_app/android/view/new.contact.form.view.dart';
 import 'package:go_router/go_router.dart';
 import 'models/contact.model.dart';
 import 'models/post.model.dart';
@@ -14,6 +15,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/home', builder: (context, state) => HomeView()),
     GoRoute(path: '/contact', builder: (context, state) => ContactView()),
     GoRoute(path: '/post', builder: (context, state) => PostView()),
+    GoRoute(path: '/new_contact', builder: (context, state) => NewContact()),
     GoRoute(
       path: '/contact_detail',
       builder: (context, state) {

@@ -15,7 +15,7 @@ class ContactView extends StatelessWidget {
     return BlocProvider(
       create: (context) => ContactController()..fetchContacts(),
       child: Scaffold(
-        appBar: AppBarWidget(title: 'Contact Page'),
+        appBar: AppBarWidget(title: 'Contact Page', showAddButton: true),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
