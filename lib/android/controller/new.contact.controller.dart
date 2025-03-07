@@ -23,15 +23,15 @@ class NewContactController extends Cubit<NewContactState> {
   }
 }
 
-abstract class NewContactState {}
+sealed class NewContactState {}
 
-class NewContactInitial extends NewContactState {}
+final class NewContactInitial extends NewContactState {}
 
-class NewContactLoading extends NewContactState {}
+final class NewContactLoading extends NewContactState {}
 
-class NewContactLoaded extends NewContactState {}
+final class NewContactLoaded extends NewContactState {}
 
-class NewContactError extends NewContactState {
+final class NewContactError extends NewContactState {
   NewContactError(this.message);
 
   final String message;

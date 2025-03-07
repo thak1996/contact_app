@@ -34,29 +34,33 @@ class _NewContactState extends State<NewContact> {
             key: _formKey,
             child: BlocConsumer<NewContactController, NewContactState>(
               listener: (context, state) {
-                if (state is NewContactError) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Erro'),
-                        content: Text(state.message),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('OK'),
-                            onPressed: () => context.pop(),
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                switch (state) {
+                  case NewContactError():
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Erro'),
+                          content: Text(state.message),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('OK'),
+                              onPressed: () => context.pop(),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    break;
+                  default:
+                    SizedBox();
                 }
               },
               builder: (context, state) {
-                switch (state.runtimeType) {
-                  case const (NewContactLoading):
+                switch (state) {
+                  case NewContactLoading():
                     return const Center(child: CircularProgressIndicator());
-                  case const (NewContactLoaded):
+                  case NewContactLoaded():
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       context.go('/contact');
                     });
