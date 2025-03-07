@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:contact_app/android/core/utils/exceptions.dart';
 import 'package:dio/dio.dart';
 import 'package:result_dart/result_dart.dart';
@@ -33,9 +31,7 @@ class ContactService extends BaseService implements IContactService {
   AsyncResult<String> deleteContact(Contact contact) async {
     try {
       final response = await delete(route: '/users/${contact.id}');
-      if (response.statusCode == 204) {
-        return Success('Contato deletado com sucess');
-      }
+      if (response.statusCode == 204) Success('Contato deletado com sucesso');
       return Failure(GeneralException('Usuário não encontrado.'));
     } on DioException catch (e) {
       return Failure(
@@ -51,9 +47,7 @@ class ContactService extends BaseService implements IContactService {
         route: '/users/${contact.id}',
         body: contact.toMap(),
       );
-      if (response.statusCode == 200) {
-        return Success('Contato atualizado com sucesso');
-      }
+      if (response.statusCode == 200) Success('Contato atualizado com sucesso');
       return Failure(GeneralException('Erro ao atualizar contato'));
     } on DioException catch (e) {
       return Failure(
@@ -66,10 +60,7 @@ class ContactService extends BaseService implements IContactService {
   AsyncResult<String> createContact(Contact contact) async {
     try {
       final response = await post(route: '/users', body: contact.toMap());
-      if (response.statusCode == 201) {
-        return Success('Contato criado com sucesso');
-      }
-      log('Passou aqui na falha: ${response.data.toString()}');
+      if (response.statusCode == 201) Success('Contato criado com sucesso');
       if (response.data is List) {
         final listErrors = response.data as List;
         final translatedErrors = ErrorTranslator.translateList(listErrors);
@@ -77,7 +68,6 @@ class ContactService extends BaseService implements IContactService {
       }
       return Failure(GeneralException('Erro ao criar contato'));
     } on DioException catch (e) {
-      log(e.message ?? 'Erro ao criar contato');
       return Failure(
         GeneralException(e.message ?? 'Erro ao criar contato'),
       );

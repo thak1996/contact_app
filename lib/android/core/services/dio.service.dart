@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../models/response.model.dart';
 import '../constants/constants.dart';
 import '../interfaces/service.interface.dart';
-
 import '../utils/error.stats.dart';
 
 class BaseService implements IApiService {
