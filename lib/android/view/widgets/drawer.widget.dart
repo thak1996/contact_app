@@ -51,7 +51,7 @@ class DrawerWidget extends StatelessWidget {
                     ListTile(
                       leading: Icon(Icons.post_add_outlined),
                       title: Text('Posts'),
-                      onTap: () => context.push('/posts'),
+                      onTap: () => context.push('/post'),
                     ),
                   ],
                 ),
