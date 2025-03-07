@@ -20,19 +20,16 @@ class PostView extends StatelessWidget {
           children: [
             BlocBuilder<PostController, PostState>(
               builder: (context, state) {
-                switch (state.runtimeType) {
-                  case const (PostLoading):
+                switch (state) {
+                  case PostLoading():
                     return Center(child: CircularProgressIndicator());
-                  case const (PostLoaded):
-                    final homeLoadedState = state as PostLoaded;
+                  case PostLoaded():
                     return Expanded(
                       child: SingleChildScrollView(
                         child: RefreshIndicator(
-                          onRefresh: () async {
-                            await context //
-                                .read<PostController>()
-                                .fetchPosts();
-                          },
+                          onRefresh: () async => await context //
+                              .read<PostController>()
+                              .fetchPosts(),
                           child: ListView.builder(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 14,
@@ -40,20 +37,17 @@ class PostView extends StatelessWidget {
                             ),
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: homeLoadedState.posts.length,
+                            itemCount: state.posts.length,
                             itemBuilder: (context, index) {
-                              final post = homeLoadedState.posts[index];
+                              final post = state.posts[index];
                               return PostListTile(post: post);
                             },
                           ),
                         ),
                       ),
                     );
-                  case const (PostError):
-                    final homeErrorState = state as PostError;
-                    return Center(
-                      child: Text('Erro: ${homeErrorState.message}'),
-                    );
+                  case PostError():
+                    return Center(child: Text('Erro: ${state.message}'));
                   default:
                     return Center(child: Text('Erro desconhecido'));
                 }

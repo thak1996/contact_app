@@ -55,37 +55,37 @@ class ContactController extends Cubit<ContactState> {
   }
 }
 
-abstract class ContactState {}
+sealed class ContactState {}
 
-class ContactInitial extends ContactState {}
+final class ContactInitial extends ContactState {}
 
-class ContactLoading extends ContactState {}
+final class ContactLoading extends ContactState {}
 
-class ContactLoaded extends ContactState {
+final class ContactLoaded extends ContactState {
   ContactLoaded(this.contacts);
 
   final List<Contact> contacts;
 }
 
-class ContactDeleted extends ContactState {
+final class ContactDeleted extends ContactState {
   ContactDeleted(this.message);
 
   final String message;
 }
 
-class ContactError extends ContactState {
+final class ContactError extends ContactState {
   ContactError(this.message);
 
   final String message;
 }
 
-class ContactDeleteError extends ContactState {
+final class ContactDeleteError extends ContactState {
   ContactDeleteError(this.message);
 
   final String message;
 }
 
-class ContactUpdated extends ContactState {
+final class ContactUpdated extends ContactState {
   ContactUpdated(this.message);
 
   final String message;

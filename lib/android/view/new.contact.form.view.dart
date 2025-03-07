@@ -53,7 +53,7 @@ class _NewContactState extends State<NewContact> {
                     );
                     break;
                   default:
-                    SizedBox();
+                    break;
                 }
               },
               builder: (context, state) {

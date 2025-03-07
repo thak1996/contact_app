@@ -23,51 +23,47 @@ class ContactView extends StatelessWidget {
           children: [
             BlocConsumer<ContactController, ContactState>(
               listener: (context, state) {
-                switch (state.runtimeType) {
-                  case const (ContactUpdated):
-                    final contactUpdatedState = state as ContactUpdated;
+                switch (state) {
+                  case ContactUpdated():
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(contactUpdatedState.message)),
+                      SnackBar(content: Text(state.message)),
                     );
                     break;
-                  case const (ContactDeleted):
-                    final contactDeletedState = state as ContactDeleted;
+                  case ContactDeleted():
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(contactDeletedState.message)),
+                      SnackBar(content: Text(state.message)),
                     );
                     break;
-                  case const (ContactDeleteError):
-                    final deleteErrorState = state as ContactDeleteError;
+                  case ContactDeleteError():
                     showDialog(
                       context: context,
                       builder: (BuildContext context) => AlertDialogWidget(
-                        mesage: deleteErrorState.message,
+                        mesage: state.message,
                       ),
                     );
+                    break;
+                  default:
                     break;
                 }
               },
               builder: (context, state) {
-                switch (state.runtimeType) {
-                  case const (ContactLoading):
+                switch (state) {
+                  case ContactLoading():
                     return Center(child: CircularProgressIndicator());
-                  case const (ContactLoaded):
-                    final homeLoadedState = state as ContactLoaded;
+                  case ContactLoaded():
                     return Expanded(
                       child: SingleChildScrollView(
                         child: RefreshIndicator(
-                          onRefresh: () async {
-                            await context //
-                                .read<ContactController>()
-                                .fetchContacts();
-                          },
+                          onRefresh: () async => await context //
+                              .read<ContactController>()
+                              .fetchContacts(),
                           child: ListView.builder(
                             padding: const EdgeInsets.all(8),
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: homeLoadedState.contacts.length,
+                            itemCount: state.contacts.length,
                             itemBuilder: (context, index) {
-                              final contact = homeLoadedState.contacts[index];
+                              final contact = state.contacts[index];
                               return ContactListTile(
                                 contact: contact,
                                 onDelete: () => context //
@@ -80,11 +76,8 @@ class ContactView extends StatelessWidget {
                         ),
                       ),
                     );
-                  case const (ContactError):
-                    final homeErrorState = state as ContactError;
-                    return Center(
-                      child: Text('Erro: ${homeErrorState.message}'),
-                    );
+                  case ContactError():
+                    return Center(child: Text('Erro: ${state.message}'));
                   default:
                     return Container();
                 }
@@ -100,12 +93,10 @@ class ContactView extends StatelessWidget {
     final contectController = context.read<ContactController>();
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return EditContactDialog(
-          contact: contact,
-          contactController: contectController,
-        );
-      },
+      builder: (BuildContext context) => EditContactDialog(
+        contact: contact,
+        contactController: contectController,
+      ),
     );
   }
 }

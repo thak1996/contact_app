@@ -20,19 +20,19 @@ class PostController extends Cubit<PostState> {
   }
 }
 
-abstract class PostState {}
+sealed class PostState {}
 
-class PostInitial extends PostState {}
+final class PostInitial extends PostState {}
 
-class PostLoading extends PostState {}
+final class PostLoading extends PostState {}
 
-class PostLoaded extends PostState {
+final class PostLoaded extends PostState {
   PostLoaded(this.posts);
 
   final List<Post> posts;
 }
 
-class PostError extends PostState {
+final class PostError extends PostState {
   PostError(this.message);
 
   final String message;
