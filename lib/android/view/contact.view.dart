@@ -5,6 +5,7 @@ import '../models/contact.model.dart';
 import 'widgets/alert_dialog.widget.dart';
 import 'widgets/app_bar.widget.dart';
 import 'widgets/contact.listtile.dart';
+import 'widgets/drawer.widget.dart';
 import 'widgets/edit_contact_dialog.dart';
 
 class ContactView extends StatelessWidget {
@@ -16,6 +17,7 @@ class ContactView extends StatelessWidget {
       create: (context) => ContactController()..fetchContacts(),
       child: Scaffold(
         appBar: AppBarWidget(title: 'Contact Page', showAddButton: true),
+        drawer: DrawerWidget(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

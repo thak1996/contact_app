@@ -1,3 +1,4 @@
+import 'package:contact_app/android/view/widgets/drawer.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../controller/post.controller.dart';
@@ -13,6 +14,7 @@ class PostView extends StatelessWidget {
       create: (context) => PostController()..fetchPosts(),
       child: Scaffold(
         appBar: AppBarWidget(title: 'Posts'),
+        drawer: DrawerWidget(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

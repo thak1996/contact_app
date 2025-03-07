@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const brightness = Brightness.light;
 const primaryColor = Color(0xFF2AACFF);
 const accentColor = Color(0xFFFFFFFF);
+const greyColor = Color(0xffEFF0F3);
 
 ThemeData androidTheme() {
   return ThemeData(
