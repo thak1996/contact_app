@@ -24,6 +24,8 @@ class ContactView extends StatelessWidget {
             BlocConsumer<ContactController, ContactState>(
               listener: (context, state) {
                 switch (state) {
+                  case ContactLoading():
+                    Center(child: CircularProgressIndicator());
                   case ContactUpdated():
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(state.message)),

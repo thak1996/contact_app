@@ -10,7 +10,6 @@ class ContactController extends Cubit<ContactState> {
 
   Future<void> fetchContacts() async {
     emit(ContactLoading());
-    await Future.delayed(Duration(seconds: 2));
     final result = await _service.getContacts();
     if (!isClosed) {
       result.fold(
@@ -24,6 +23,7 @@ class ContactController extends Cubit<ContactState> {
   }
 
   Future<void> deleteContact(Contact contact) async {
+    emit(ContactLoading());
     final result = await _service.deleteContact(contact);
     if (!isClosed) {
       result.fold(
@@ -38,6 +38,7 @@ class ContactController extends Cubit<ContactState> {
   }
 
   Future<void> updateContact(Contact contact) async {
+    emit(ContactLoading());
     final result = await _service.updateContact(contact);
     if (!isClosed) {
       result.fold(
