@@ -6,14 +6,14 @@ import '../../controller/contact.controller.dart';
 import '../../models/contact.model.dart';
 
 class EditContactDialog extends StatelessWidget {
-  final Contact contact;
-  final ContactController contactController;
-
   const EditContactDialog({
     super.key,
     required this.contact,
     required this.contactController,
   });
+
+  final Contact contact;
+  final ContactController contactController;
 
   @override
   Widget build(BuildContext context) {
