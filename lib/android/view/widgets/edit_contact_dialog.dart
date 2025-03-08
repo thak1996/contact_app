@@ -1,3 +1,6 @@
+import 'package:contact_app/android/view/widgets/dropdown_button.widget.dart';
+import 'package:contact_app/android/view/widgets/elevated_button.widget.dart';
+import 'package:contact_app/android/view/widgets/teste_form_field.widget.dart';
 import 'package:flutter/material.dart';
 import '../../controller/contact.controller.dart';
 import '../../models/contact.model.dart';
@@ -25,28 +28,27 @@ class EditContactDialog extends StatelessWidget {
     return AlertDialog(
       title: Text('Editar Contato'),
       content: Column(
+        spacing: 20,
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextField(
+          TextFormFieldWidget(
+            labelText: 'Nome',
             controller: nameController,
-            decoration: InputDecoration(labelText: 'Nome'),
           ),
-          TextField(
+          TextFormFieldWidget(
+            labelText: 'Email',
             controller: emailController,
-            decoration: InputDecoration(labelText: 'Email'),
           ),
-          DropdownButtonFormField<String>(
+          DropdownButtonWidget(
             value: gender,
-            decoration: InputDecoration(labelText: 'Sexo'),
+            labelText: 'Sexo',
             items: ['Masculino', 'Feminino']
                 .map((label) => DropdownMenuItem(
                       value: label,
                       child: Text(label),
                     ))
                 .toList(),
-            onChanged: (value) {
-              gender = value!;
-            },
+            onChanged: (value) => gender = value!,
           ),
         ],
       ),
@@ -55,7 +57,8 @@ class EditContactDialog extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
           child: Text('Cancelar'),
         ),
-        ElevatedButton(
+        ElevatedButtonWidget(
+          text: 'Salvar',
           onPressed: () {
             final updatedContact = contact.copyWith(
               name: nameController.text,
@@ -65,7 +68,6 @@ class EditContactDialog extends StatelessWidget {
             contactController.updateContact(updatedContact);
             Navigator.of(context).pop();
           },
-          child: Text('Salvar'),
         ),
       ],
     );
