@@ -6,6 +6,9 @@ import 'package:go_router/go_router.dart';
 import '../controller/new.contact.controller.dart';
 import '../core/utils/app.validators.dart';
 import '../models/contact.model.dart';
+import 'widgets/dropdown_button.widget.dart';
+import 'widgets/elevated_button.widget.dart';
+import 'widgets/teste_form_field.widget.dart';
 
 class NewContact extends StatefulWidget {
   const NewContact({super.key});
@@ -15,10 +18,9 @@ class NewContact extends StatefulWidget {
 }
 
 class _NewContactState extends State<NewContact> {
+  final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-
   String? _selectedGender;
   String? _selectedStatus;
 
@@ -66,74 +68,76 @@ class _NewContactState extends State<NewContact> {
                     });
                     return const SizedBox();
                   default:
-                    return Column(
-                      children: [
-                        TextFormField(
-                          controller: _nameController,
-                          decoration: const InputDecoration(labelText: 'Nome'),
-                          validator: AppValidators.validateName,
-                        ),
-                        TextFormField(
-                          controller: _emailController,
-                          decoration: const InputDecoration(labelText: 'Email'),
-                          validator: AppValidators.validateEmail,
-                        ),
-                        DropdownButtonFormField<String>(
-                          value: _selectedGender,
-                          decoration: const InputDecoration(
-                            labelText: 'Gênero',
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
+                      child: Column(
+                        spacing: 20,
+                        children: [
+                          TextFormFieldWidget(
+                            controller: _nameController,
+                            labelText: 'Nome',
+                            validator: AppValidators.validateName,
                           ),
-                          items: const [
-                            DropdownMenuItem(
-                              value: 'male',
-                              child: Text('Masculino'),
+                          TextFormFieldWidget(
+                            controller: _emailController,
+                            labelText: 'Email',
+                            validator: AppValidators.validateEmail,
+                          ),
+                          DropdownButtonWidget(
+                            labelText: "Gênero",
+                            value: _selectedGender,
+                            onChanged: (value) => setState(
+                              () => _selectedGender = value,
                             ),
-                            DropdownMenuItem(
-                              value: 'female',
-                              child: Text('Feminino'),
-                            ),
-                          ],
-                          onChanged: (value) {
-                            setState(() => _selectedGender = value);
-                          },
-                        ),
-                        DropdownButtonFormField<String>(
-                          value: _selectedStatus,
-                          decoration: const InputDecoration(
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'male',
+                                child: Text('Masculino'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'female',
+                                child: Text('Feminino'),
+                              ),
+                            ],
+                          ),
+                          DropdownButtonWidget(
+                            value: _selectedStatus,
                             labelText: 'Status',
+                            onChanged: (value) => setState(
+                              () => _selectedStatus = value,
+                            ),
+                            items: [
+                              DropdownMenuItem(
+                                value: 'active',
+                                child: Text('Ativo'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'inactive',
+                                child: Text('Inativo'),
+                              ),
+                            ],
                           ),
-                          onChanged: (value) {
-                            setState(() => _selectedStatus = value);
-                          },
-                          items: const [
-                            DropdownMenuItem(
-                              value: 'active',
-                              child: Text('Ativo'),
-                            ),
-                            DropdownMenuItem(
-                              value: 'inactive',
-                              child: Text('Inativo'),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              final newContact = Contact(
-                                name: _nameController.text,
-                                email: _emailController.text,
-                                gender: _selectedGender!,
-                                status: _selectedStatus!,
-                              );
-                              context //
-                                  .read<NewContactController>()
-                                  .createContact(newContact);
-                            }
-                          },
-                          child: const Text('Criar Contato'),
-                        ),
-                      ],
+                          ElevatedButtonWidget(
+                            text: 'Criar Contato',
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                final newContact = Contact(
+                                  name: _nameController.text,
+                                  email: _emailController.text,
+                                  gender: _selectedGender!,
+                                  status: _selectedStatus!,
+                                );
+                                context //
+                                    .read<NewContactController>()
+                                    .createContact(newContact);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     );
                 }
               },
